@@ -1,39 +1,11 @@
-version: "3"
+version: '3'
 
 services:
   web:
-    build: .
-    ports:
-      - "2000:80"
-    depends_on:
-      - db
-    networks:
-      - app-network
-
-  db:
-    image: mysql:5.7
-    environment:
-      MYSQL_ROOT_PASSWORD: mysecretpassword
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
-      - db_data:/var/lib/mysql
-    networks:
-      - app-network
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    depends_on:
-      - db
+      - ./src:/var/www/html/
     ports:
-      - "8080:80"
-    environment:
-      PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: mysecretpassword
-    networks:
-      - app-network
-
-volumes:
-  db_data:
-
-networks:
-  app-network:
-    driver: bridge
+      - "8000:80"
